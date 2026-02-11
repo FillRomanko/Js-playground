@@ -95,11 +95,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const eightMul = document.querySelector('[data-js="t8-mul"]');
   const eightResult = document.querySelector('[data-js="t8-out"]');
   eightSum.addEventListener("click", () => {
+    if (eightA.value === "" || eightB.value === "") return;
+    let a = Number(eightA.value);
+    let b = Number(eightB.value);
     eightResult.textContent = eightA.value + eightB.value;
+    if (!Number.isNaN(a) && !Number.isNaN(b)) eightResult.textContent = a + b;
     eightA.value = "";
     eightB.value = "";
   })
   eightMul.addEventListener("click", () => {
+    if (eightA.value === "" || eightB.value === "") return;
     let a = Number(eightA.value);
     let b = Number(eightB.value);
 
