@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fifthClick = document.querySelector('[data-js="t5-open"]');
   const fifthModal = document.querySelector('[data-js="t5-modal"]');
   const fifthSecondClick = document.querySelector('[data-js="t5-close"]');
+  const fifthBack = document.querySelector('[data-js="t5-backdrop"]');
   fifthClick.addEventListener("click", () => {
     fifthModal.hidden = false;
   })
@@ -63,6 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {fifthModal.hidden = true;}
+  })
+  fifthBack.addEventListener("click", (e) => {
+    fifthModal.hidden = true;
   })
 
   // 6
