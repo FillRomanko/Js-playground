@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   enableTooltips();
-
+  
   // button 1
   const firsBtn = document.querySelector('[data-js="t1-btn"]');
   const colorImage = document.querySelector('[data-js="t1-hex"]');
@@ -275,11 +275,15 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   
   // 17
+  const music = new Audio("MY_JEALOUSY.mp3");
+  music.loop = true;
+  music.volume = 0.2;
   const seventeenthArea = document.querySelector('[data-js="t17-area"]');
   let seventh = true;
   const seventeenthObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
+      music.play();
       seventhLoop();
     });
   }, {
@@ -300,7 +304,8 @@ document.addEventListener("DOMContentLoaded", () => {
     square.style.position = 'absolute';
     square.style.height = '100px';
     square.style.width = '100px';
-    square.style.backgroundColor = '#111';
+    square.style.backgroundImage = "url('1.jpg')";
+    square.style.backgroundSize = "100% 100%";
     square.style.top = Math.random() * (areaV.height - 100) + 'px';
     square.style.left = Math.random() * (areaV.width - 100) + 'px';
     seventeenthArea.appendChild(square);
@@ -308,6 +313,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
   seventeenthObserver.observe(seventeenthArea);
   
+  // 18
+  const t18area = document.querySelector('[data-js="t18-area"]');
+  t18area.style.width = '100vw';
+  t18area.style.maxWidth = '90vw';
+  spawnStars(t18area);
+
+  function spawnStars(area) {
+    spawnRunStars(area);
+    setTimeout(spawnStars, 100 + Math.random() * 600, area);
+  }
+  
+  function spawnRunStars(area) {
+    const square = document.createElement('div');
+    square.style.position = 'absolute';
+    square.style.height = '100px';
+    square.style.width = '100px';
+    square.style.backgroundImage = "url('1.jpg')";
+    square.style.backgroundSize = "100% 100%";
+    area.appendChild(square);
+
+    square.style.top = Math.random() * (area.clientHeight - square.offsetHeight) + 'px';
+    const startLeft = area.clientWidth - square.offsetWidth;
+    square.style.left = startLeft + 'px';
+    speedStar(square, area, 1 + Math.random() * 2);
+  }
+  function speedStar(square, area, speed) {
+    let lastTime = null;
+
+    function frame(timestamp) {
+      if (lastTime === null) {
+        lastTime = timestamp;
+      }
+
+      const dt = timestamp - lastTime;
+      lastTime = timestamp;
+
+      const left = parseInt(square.style.left);
+
+      if (left + square.offsetWidth < 0) {
+        square.remove();
+        return;
+      }
+
+      const dx = speed * (dt / 17);
+      square.style.left = (left - dx) + 'px';
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
   // 21
   function spawnRunningBlocks(area, scoretab, lives) {
     if (!playing || Number(lives.textContent) <= 0) return;
@@ -315,8 +371,8 @@ document.addEventListener("DOMContentLoaded", () => {
     square.style.position = 'absolute';
     square.style.height = '100px';
     square.style.width = '100px';
-    square.style.opacity = 0.5;
-    square.style.backgroundColor = '#111';
+    square.style.backgroundImage = "url('1.jpg')";
+    square.style.backgroundSize = "100% 100%";
     area.appendChild(square);
     
     square.style.top = Math.random() * (area.clientHeight - square.offsetHeight) + 'px';
@@ -345,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lastTime = timestamp;
       }
 
-      const dt = timestamp - lastTime;      // сколько прошло мс с прошлого кадра
+      const dt = timestamp - lastTime;
       lastTime = timestamp;
 
       const left = parseInt(square.style.left);
@@ -359,8 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return;
       }
-
-      // эквивалент старого: speed за ~17 мс, масштабируем по реальному времени
+      
       const dx = speed * (dt / 17);
       square.style.left = (left - dx) + 'px';
 
