@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
     area.appendChild(square);
 
     square.style.top = Math.random() * (area.clientHeight - square.offsetHeight) + 'px';
-    const startLeft = area.clientWidth - square.offsetWidth;
+    const startLeft = area.clientWidth;
     square.style.left = startLeft + 'px';
     speedStar(square, area, 1 + Math.random() * 2);
   }
@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
     area.appendChild(square);
     
     square.style.top = Math.random() * (area.clientHeight - square.offsetHeight) + 'px';
-    const startLeft = area.clientWidth - square.offsetWidth;
+    const startLeft = area.clientWidth;
     square.style.left = startLeft + 'px';
     
     square._destroyed = false;
