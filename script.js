@@ -329,6 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function spawnRunStars(area) {
     const square = document.createElement('div');
+    let bonus = 1;
     square.style.position = 'absolute';
     square.style.height = '100px';
     square.style.width = '100px';
@@ -339,33 +340,46 @@ document.addEventListener("DOMContentLoaded", () => {
     square.style.top = Math.random() * (area.clientHeight - square.offsetHeight) + 'px';
     const startLeft = area.clientWidth;
     square.style.left = startLeft + 'px';
-    speedStar(square, area, 1 + Math.random() * 2);
+    if (Math.random() < 0.1) {bonus = 5}
+    speedStar(square, area, bonus * (1 + Math.random() * 2));
   }
-  function speedStar(square, area, speed) {
+  function speedStar(square, area, baseSpeed) {
     let lastTime = null;
+    let speed = baseSpeed;        
+    let accel = 0;      
 
     function frame(timestamp) {
-      if (lastTime === null) {
-        lastTime = timestamp;
-      }
-
-      const dt = timestamp - lastTime;
+      if (lastTime === null) lastTime = timestamp;
+      const dt = (timestamp - lastTime) / 1000;
       lastTime = timestamp;
 
-      const left = parseInt(square.style.left);
+      let left = parseFloat(square.style.left);
 
       if (left + square.offsetWidth < 0) {
         square.remove();
         return;
       }
-      if (left < -1 * square.offsetWidth / 10) {speed*=1.1}
-      const dx = speed * (dt / 17);
-      square.style.left = (left - dx) + 'px';
+      
+      if (Math.random() < dt * 5) {
+        const aMax = 40;
+        accel = (Math.random() * 2 - 1) * aMax;
+      }
+      
+      speed += accel * dt;
+      
+      const minSpeed = baseSpeed * 0.3;
+      const maxSpeed = baseSpeed * 2.5;
+      if (speed < minSpeed) speed = minSpeed;
+      if (speed > maxSpeed) speed = maxSpeed;
+      
+      left -= speed * dt * 60;
+      square.style.left = left + 'px';
 
       requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
   }
+
 
   // 21
   function spawnRunningBlocks(area, scoretab, lives) {
@@ -389,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
       square.remove();
       scoretab.textContent = Number(scoretab.textContent) + 1;
     })
-    speedLoop(square, area, 1.8 + Math.random() * 2, lives);
+    speedLoop(square, area, 2 + Math.random() * 2, lives);
   }
 
   function speedLoop(square, area, speed, lives) {
@@ -464,12 +478,12 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function spawnLoop(area, scoretab, lives) {
     if (Number(lives.textContent) <= 0) {
-      area.innerHTML = area.innerHTML + "<div style='top: 45%; position: relative'>Нажмите что бы начать заново</div>";
+      area.innerHTML = area.innerHTML + "<div style='top: 40%; position: relative; font-size: 300%'>Нажмите что бы начать заново</div>";
       playing = false
       return;
     }
     spawnRunningBlocks(area, scoretab, lives);
-    setTimeout(spawnLoop, 100 + Math.random() * 600, area, scoretab, lives);
+    setTimeout(spawnLoop, 100 + Math.random() * 500, area, scoretab, lives);
   }
   
   let playing = false;
