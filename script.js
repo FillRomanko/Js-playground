@@ -351,6 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   function spawnLoop(area, scoretab, lives) {
     if (Number(lives.textContent) <= 0) {
+      area.innerHTML = area.innerHTML + "<div style='top: 45%; position: relative'>Нажмите что бы начать заново</div>";
       playing = false
       return;
     }
@@ -362,8 +363,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const t21area = document.querySelector('[data-js="t21-area"]');
   const t21scoretab = document.querySelector('[data-js="t21-score"]');
   const t21livestab = document.querySelector('[data-js="t21-lives"]');
+  t21area.innerHTML = "<div style='top: 45%; position: relative'>Нажмите что бы начать</div>";
   t21area.addEventListener('click', () => {
-    if (playing) return;
+    if (playing) {
+      return;
+    }
     playing = true;
     t21livestab.textContent = 3;
     t21scoretab.textContent = 0;
