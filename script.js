@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
       square.remove();
       scoretab.textContent = Number(scoretab.textContent) + 1;
     })
-    speedLoop(square, area, 1 + Math.random() * 2, lives);
+    speedLoop(square, area, 1.8 + Math.random() * 2, lives);
   }
 
   function speedLoop(square, area, speed, lives) {
@@ -411,7 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     spawnRunningBlocks(area, scoretab, lives);
-    setTimeout(spawnLoop, Math.random() * 1500, area, scoretab, lives);
+    setTimeout(spawnLoop, 100 + Math.random() * 600, area, scoretab, lives);
   }
   
   let playing = false;
