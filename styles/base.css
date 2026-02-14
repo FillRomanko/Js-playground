@@ -220,3 +220,41 @@ main {
   50% {background-color: hsla(180deg, 100%, 50%, 100%);}
   100% {background-color: hsla(360deg, 100%, 70%, 100%); transform: rotate(360deg)}
 }
+
+.game-area {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  height: 320px;
+  border: 1px solid #111;
+  background: #f7f7f7;
+  overflow: hidden;
+}
+
+.target-block {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: #111;
+  cursor: pointer;
+}
+
+.game-over[hidden] {
+  display: none;
+}
+
+.game-over {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 10px;
+  justify-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  z-index: 3;
+}
+
+.game-over__title {
+  font-size: 20px;
+  font-weight: 700;
+}

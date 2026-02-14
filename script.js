@@ -273,4 +273,101 @@ document.addEventListener("DOMContentLoaded", () => {
       sixteenthBox.classList.remove("is-bouncing");
     }, 1000);
   })
+  
+  // 17
+  const seventeenthArea = document.querySelector('[data-js="t17-area"]');
+  let seventh = true;
+  const seventeenthObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      seventhLoop();
+    });
+  }, {
+    root: null,
+    threshold: 0.1,
+  });
+
+  function seventhLoop(){
+    if (!seventhLoop) return;
+    
+    SeventeenthSpawn();
+    
+    setTimeout(seventhLoop, 1000);
+  }
+  function SeventeenthSpawn() {
+    const square = document.createElement('div');
+    const areaV = seventeenthArea.getBoundingClientRect();
+    square.style.position = 'absolute';
+    square.style.height = '100px';
+    square.style.width = '100px';
+    square.style.backgroundColor = '#111';
+    square.style.top = Math.random() * (areaV.height - 100) + 'px';
+    square.style.left = Math.random() * (areaV.width - 100) + 'px';
+    seventeenthArea.appendChild(square);
+  }
+
+  seventeenthObserver.observe(seventeenthArea);
+  
+  // 21
+  function spawnRunningBlocks(area, scoretab, lives) {
+    if (!playing || Number(lives.textContent) <= 0) return;
+    const square = document.createElement('div');
+    square.style.position = 'absolute';
+    square.style.height = '100px';
+    square.style.width = '100px';
+    square.style.opacity = 0.5;
+    square.style.backgroundColor = '#111';
+    area.appendChild(square);
+    
+    square.style.top = Math.random() * (area.clientHeight - square.offsetHeight) + 'px';
+    const startLeft = area.clientWidth - square.offsetWidth;
+    square.style.left = startLeft + 'px';
+    
+    square._destroyed = false;
+    
+    square.addEventListener('click', () => {
+      if (square._destroyed) return;
+      square.remove();
+      scoretab.textContent = Number(scoretab.textContent) + 1;
+    })
+    speedLoop(square, area, 1 + Math.random() * 2, lives);
+  }
+
+  function speedLoop(square, area, speed, lives) {
+    if (!playing || !square.isConnected || square._destroyed) return;
+    const left = parseInt(square.style.left);
+    if (left + square.offsetWidth < 0) {
+      if (square._destroyed) return;
+      lives.textContent = Number(lives.textContent) - 1;
+      square.remove();
+      if (Number(lives.textContent) <= 0){
+        lives.textContent = 0;
+      }
+      return;
+    }
+    square.style.left = (left - speed) + 'px';
+    setTimeout(speedLoop, 17, square, area, speed, lives);
+  }
+  
+  function spawnLoop(area, scoretab, lives) {
+    if (Number(lives.textContent) <= 0) {
+      playing = false
+      return;
+    }
+    spawnRunningBlocks(area, scoretab, lives);
+    setTimeout(spawnLoop, Math.random() * 1500, area, scoretab, lives);
+  }
+  
+  let playing = false;
+  const t21area = document.querySelector('[data-js="t21-area"]');
+  const t21scoretab = document.querySelector('[data-js="t21-score"]');
+  const t21livestab = document.querySelector('[data-js="t21-lives"]');
+  t21area.addEventListener('click', () => {
+    if (playing) return;
+    playing = true;
+    t21livestab.textContent = 3;
+    t21scoretab.textContent = 0;
+    t21area.innerHTML = '';
+    spawnLoop(t21area, t21scoretab, t21livestab);
+  })
 });
