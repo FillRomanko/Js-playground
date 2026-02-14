@@ -277,14 +277,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // 17
   const music = new Audio("MY_JEALOUSY.mp3");
   music.loop = true;
-  music.volume = 0.2;
+  music.volume = 0.05;
   const seventeenthArea = document.querySelector('[data-js="t17-area"]');
   let seventh = true;
   const seventeenthObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
+      if (!entry.isIntersecting || !seventh) return;
       music.play();
       seventhLoop();
+      seventh = false;
+      document.title = "MY JEALOUSY";
+      document.getElementById("favicon").href = "1.jpg";
     });
   }, {
     root: null,
@@ -355,7 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
         square.remove();
         return;
       }
-
+      if (left < -1 * square.offsetWidth / 10) {speed*=1.1}
       const dx = speed * (dt / 17);
       square.style.left = (left - dx) + 'px';
 
@@ -415,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return;
       }
-      
+      if (left < -1 * square.offsetWidth / 10) {speed*=1.1}
       const dx = speed * (dt / 17);
       square.style.left = (left - dx) + 'px';
 
