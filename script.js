@@ -278,6 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const music = new Audio("MY_JEALOUSY.mp3");
   music.loop = true;
   music.volume = 0.05;
+  music.load();
   const seventeenthArea = document.querySelector('[data-js="t17-area"]');
   let seventh = true;
   const seventeenthObserver = new IntersectionObserver((entries, observer) => {
