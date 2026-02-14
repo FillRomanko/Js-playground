@@ -318,8 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // 18
   const t18area = document.querySelector('[data-js="t18-area"]');
-  t18area.style.width = '100vw';
-  t18area.style.maxWidth = '90vw';
+  t18area.style.maxWidth = '100%';
   spawnStars(t18area);
 
   function spawnStars(area) {
