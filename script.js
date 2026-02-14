@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function spawnStars(area) {
     spawnRunStars(area);
-    setTimeout(spawnStars, 100 + Math.random() * 600, area);
+    setTimeout(spawnStars, 100 + Math.random() * 300, area);
   }
   
   function spawnRunStars(area) {
@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
     square.style.top = Math.random() * (area.clientHeight - square.offsetHeight) + 'px';
     const startLeft = area.clientWidth;
     square.style.left = startLeft + 'px';
-    if (Math.random() < 0.1) {bonus = 5}
+    if (Math.random() < 0.8) {bonus = 5}
     speedStar(square, area, bonus * (1 + Math.random() * 2));
   }
   function speedStar(square, area, baseSpeed) {
@@ -367,8 +367,8 @@ document.addEventListener("DOMContentLoaded", () => {
       
       speed += accel * dt;
       
-      const minSpeed = baseSpeed * 0.3;
-      const maxSpeed = baseSpeed * 2.5;
+      const minSpeed = baseSpeed * 0.7;
+      const maxSpeed = baseSpeed * 2;
       if (speed < minSpeed) speed = minSpeed;
       if (speed > maxSpeed) speed = maxSpeed;
       
