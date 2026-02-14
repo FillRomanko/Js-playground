@@ -335,19 +335,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function speedLoop(square, area, speed, lives) {
     if (!playing || !square.isConnected || square._destroyed) return;
-    const left = parseInt(square.style.left);
-    if (left + square.offsetWidth < 0) {
-      if (square._destroyed) return;
-      lives.textContent = Number(lives.textContent) - 1;
-      square.remove();
-      if (Number(lives.textContent) <= 0){
-        lives.textContent = 0;
+
+    let lastTime = null;
+
+    function frame(timestamp) {
+      if (!playing || !square.isConnected || square._destroyed) return;
+
+      if (lastTime === null) {
+        lastTime = timestamp;
       }
-      return;
+
+      const dt = timestamp - lastTime;      // сколько прошло мс с прошлого кадра
+      lastTime = timestamp;
+
+      const left = parseInt(square.style.left);
+
+      if (left + square.offsetWidth < 0) {
+        if (square._destroyed) return;
+        lives.textContent = Number(lives.textContent) - 1;
+        square.remove();
+        if (Number(lives.textContent) <= 0) {
+          lives.textContent = 0;
+        }
+        return;
+      }
+
+      // эквивалент старого: speed за ~17 мс, масштабируем по реальному времени
+      const dx = speed * (dt / 17);
+      square.style.left = (left - dx) + 'px';
+
+      requestAnimationFrame(frame);
     }
-    square.style.left = (left - speed) + 'px';
-    setTimeout(speedLoop, 17, square, area, speed, lives);
+
+    requestAnimationFrame(frame);
   }
+  function speedLoop(square, area, speed, lives) {
+    if (!playing || !square.isConnected || square._destroyed) return;
+
+    let lastTime = null;
+
+    function frame(timestamp) {
+      if (!playing || !square.isConnected || square._destroyed) return;
+
+      if (lastTime === null) {
+        lastTime = timestamp;
+      }
+
+      const dt = timestamp - lastTime;
+      lastTime = timestamp;
+
+      const left = parseInt(square.style.left);
+
+      if (left + square.offsetWidth < 0) {
+        if (square._destroyed) return;
+        lives.textContent = Number(lives.textContent) - 1;
+        square.remove();
+        if (Number(lives.textContent) <= 0) {
+          lives.textContent = 0;
+        }
+        return;
+      }
+      const dx = speed * (dt / 17);
+      square.style.left = (left - dx) + 'px';
+
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
   
   function spawnLoop(area, scoretab, lives) {
     if (Number(lives.textContent) <= 0) {
