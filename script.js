@@ -313,6 +313,8 @@ document.addEventListener("DOMContentLoaded", () => {
     square.style.top = Math.random() * (areaV.height - 100) + 'px';
     square.style.left = Math.random() * (areaV.width - 100) + 'px';
     seventeenthArea.appendChild(square);
+    
+    setTimeout(() => {square.remove()}, music.duration * 400);
   }
 
   seventeenthObserver.observe(seventeenthArea);
